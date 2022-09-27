@@ -58,4 +58,12 @@ def regi(request):
         return render(request,'register.html')
 
 def sub(request):
+    uname=request.POST['uname']
+    pname=request.POST['pword']
+    user=auth.authenticate(username=uname,password=pname)
+    if user is not None:
+        auth.login(request,user)
+        return redirect("/")
+    else:
+        return render(request,'test.html')
     return render(request,'test.html')

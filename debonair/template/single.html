@@ -210,16 +210,12 @@
                     <div class="bg-white" style="padding: 30px; margin-bottom: 30px;">
                         <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Comments</h4>
                         <div class="message-box">
-                            <p>Nandini <b>This place and the service was really great</b>
-                            <small>24/03/2022</small></p>
-                            <p>Nandini <b>This place and the service was really great</b>
-                            <small>24/03/2022</small></p>
-                            <p>Nandini <b>This place and the service was really great</b>
-                            <small>24/03/2022</small></p>
-                            <p>Nandini <b>This place and the service was really great</b>
-                            <small>24/03/2022</small></p>
-                            <p>Nandini <b>This place and the service was really great</b>
-                            <small>24/03/2022</small></p>
+                            
+
+                        {% for c in cmt %}
+                        <p>{{c.name}}<b>{{c.cmt}}</b>
+                        <small>{{c.date}}</small></p>
+                        {% endfor %}
                             
                         </div>
                         
@@ -230,18 +226,21 @@
                     <!-- Comment Form Start -->
                     <div class="bg-white mb-3" style="padding: 30px;">
                         <h4 class="text-uppercase mb-4" style="letter-spacing: 5px;">Leave a comment</h4>
-                        <form>
-                            
+                        <form action="{% url 'commentbox' %}">
+                        {% if user.is_authenticated %}
                             
     
                             <div class="form-group">
                                 <label for="message">Message *</label>
-                                <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                <textarea id="message" cols="30" rows="5" class="form-control" name="msg"></textarea>
                             </div>
                             <div class="form-group mb-0">
                                 <input type="submit" value="Leave a comment"
                                     class="btn btn-primary font-weight-semi-bold py-2 px-3">
+                                    <input type="hidden" name="pro_id" value="{{p.id}}">
+                                    <input type="hidden" name="user" value="{{user.username}}">
                             </div>
+                            {% endif %}
                         </form>
                     </div>
                     <!-- Comment Form End -->

@@ -7,5 +7,5 @@ urlpatterns = [
     path('login/',views.sam,name='login_page'),
     path('register/',views.regi,name='register_page'),
     path('',views.samp),
-    path('login/loginsub/',views.sub),
+    path('login/loginsub/',views.sub,name='loginpage2'),
 ]
