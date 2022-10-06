@@ -16,7 +16,12 @@ from django.contrib.auth.models import User,auth
     #return render(request,'test.html',{'l':pro})
 
 def samp(request):
-    data=TravelPlace.objects.all()
+    if request.method=="POST":
+        val=request.POST['searchbox']
+        data=TravelPlace.objects.filter(name__istartswith=val)
+    else:
+        data=TravelPlace.objects.all()
+   
     
 
     return render(request,'index.html',{'d':data})
