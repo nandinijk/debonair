@@ -16,6 +16,12 @@ from django.contrib.auth.models import User,auth
     #return render(request,'test.html',{'l':pro})
 
 def samp(request):
+    # cookies viewing
+    if 'name' in request.COOKIES:
+        msg=request.COOKIES['name']
+    else:
+        msg='what say our clients'
+    #searching
     if request.method=="POST":
         val=request.POST['searchbox']
         data=TravelPlace.objects.filter(name__istartswith=val)
@@ -24,7 +30,7 @@ def samp(request):
    
     
 
-    return render(request,'index.html',{'d':data})
+    return render(request,'index.html',{'d':data,'msg':msg})
 
 
 
@@ -63,12 +69,24 @@ def regi(request):
         return render(request,'register.html')
 
 def sub(request):
-    uname=request.POST['uname']
-    pname=request.POST['pword']
-    user=auth.authenticate(username=uname,password=pname)
-    if user is not None:
-        auth.login(request,user)
-        return redirect("/")
+    if request.method=='POST':
+
+        uname=request.POST['uname']
+        pname=request.POST['pword']
+        user=auth.authenticate(username=uname,password=pname)
+        if user is not None:
+            auth.login(request,user)
+            res=redirect("/")
+            res.set_cookie('name',uname)
+            return res
+        else:
+            return render(request,'login.html',{'msg':'invalid username and password'})
     else:
-        return render(request,'test.html')
-    return render(request,'test.html')
+        return render(request,'login.html')
+
+
+def logout(request):
+    auth.logout(request)
+    res=redirect('/')
+    res.delete_cookie('name')
+    return res

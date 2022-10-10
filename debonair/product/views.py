@@ -15,8 +15,9 @@ def details(request):
         print("data from database")
     cmt=comment.objects.filter(place_id=id)
     print(pro)
-
-    return render(request,'single.html',{'p':pro,'cmt':cmt})
+    res=render(request,'single.html',{'p':pro,'cmt':cmt})
+    res.set_cookie('pro_name',pro.name)
+    return res
 
 def commenting(request):
     msg=request.GET['msg']
